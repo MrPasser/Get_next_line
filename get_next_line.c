@@ -6,171 +6,91 @@
 /*   By: skrasin <skrasin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:53:15 by skrasin           #+#    #+#             */
-/*   Updated: 2019/11/01 01:19:44 by skrasin          ###   ########.fr       */
+/*   Updated: 2019/11/04 15:04:22 by skrasin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#define CONT (store->content)
+#define P_NL (ft_strchr(CONT, '\n'))
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
-// static t_list	*ft_search_node_by_content_size(t_list *lst,
-// 														size_t content_size)
-// {
-// 	while (lst)
-// 	{
-// 		if ((*lst).content_size == content_size)
-// 			return (lst);
-// 		lst = (*lst).next;
-// 	}
-// 	return (NULL);
-// }
-
-// int				get_next_line(const int fd, char **line)
-// {
-// 	ssize_t			len;
-// 	ssize_t			i;
-// 	static t_list	*store;
-// 	t_list			*tmp_node;
-// 	char			buf[BUFF_SIZE + 1];
-// 	char			*tmp;
-
-// 	if (fd == -1)
-// 		return (-1);
-// 	tmp_node = ft_search_node_by_content_size(store, fd);
-// 	i = 0;
-// 	while ((len = read(fd, buf, BUFF_SIZE)) > 0)
-// 	{
-// 		buf[len] = '\0';
-// 		if ((tmp_node))
-// 			tmp_node->content = ft_strjoin(tmp_node->content, buf);/* leak */
-// 		else
-// 		{
-// 			ft_lstadd(&store, ft_lstnew(buf, len));
-// 			store->content_size = fd;
-// 			tmp_node = store;
-// 		}
-// 		while (buf[i] != '\n' && i < len)
-// 			i++;
-// 		if (buf[i] == '\n')
-// 			break;
-// 	}
-// 	if (tmp_node && ((char)(tmp_node->content + i) == '\n' || (char)(tmp_node->content + i) == '\0'))
-// 	{
-// 		free(*line);
-// 		*line = ft_strsub(tmp_node->content, 0, i);
-// 		if (buf[i] != '\0') //()?():()
-// 		{
-// 			tmp = ft_strdup(tmp_node->content + i + 1);
-// 		}
-// 		else
-// 		{
-// 			tmp = NULL;
-// 		}
-// 		printf("FREE\n");
-// 		printf("content = %s\n = content\n", tmp_node->content);
-// 		free(tmp_node->content);
-// 		printf("FREE\n");
-// 		tmp_node->content = tmp;
-// 		printf("content = %s\n = content\n", tmp_node->content);
-// 		free(tmp);
-// 	}
-// 	return (1);
-// }
-
-static t_list	*ft_search_node_by_content_size(t_list *lst,
-														size_t content_size)
+static t_list	*ft_lstsearch(size_t content_size)
 {
-	while (lst)
+	static t_list	*store;
+	t_list			*tmp;
+
+	tmp = store;
+	while (tmp)
 	{
-		if ((*lst).content_size == content_size)
-			return (lst);
-		lst = (*lst).next;
+		if (tmp->content_size == content_size)
+			return (tmp);
+		tmp = tmp->next;
 	}
-	return (NULL);
+	ft_lstadd(&tmp, ft_lstnew(ft_strnew(BUFF_SIZE), BUFF_SIZE));
+	tmp->content_size = content_size;
+	store = tmp;
+	return (tmp);
 }
 
-static int		ft_i_of_nl_or_null_in_content_of_node(t_list node)
+static char		*ft_strextend(char **dst, char const *src, size_t len)
 {
-	int i;
+	char *tmp;
 
-	i = 0;
-	while(*(char *)(node.content + i) != '\0' && *(char *)(node.content + i) != '\n')
-			i++;
-	return (i);
+	tmp = ft_strjoin(*dst, ft_strsub(src, 0, len));
+	if (*dst)
+		free(*dst);
+	*dst = tmp;
+	return (*dst);
 }
 
-void	uf_del_callback(void *d, size_t s)
+static void		ft_strcut(char **str, char *sep)
 {
-	printf("DELTEST\n");
-	free(d);
-	printf("DELTEST\n");
-	(void)s;
+	char	*tmp;
+	size_t	i;
+
+	i = sep - *str;
+	if (*sep != '\0')
+		i++;
+	tmp = ft_strdup(*str + i);
+	free(*str);
+	*str = tmp;
 }
 
 int				get_next_line(const int fd, char **line)
 {
 	ssize_t			len;
-	ssize_t			i;
-	static t_list	*store;
-	t_list			*tmp_node;
-	char			*tmp;
+	t_list			*store;
 
-	if (fd == -1 || !line)
+	if (fd < 0 || !line)
 		return (-1);
 	free(*line);
-	if (!(tmp_node = ft_search_node_by_content_size(store, fd)))
+	*line = ft_strnew(0);
+	store = ft_lstsearch(fd);
+	while ((len = read(fd, CONT, BUFF_SIZE)) > 0)
 	{
-		ft_lstadd(&store, ft_lstnew(ft_strnew(BUFF_SIZE), BUFF_SIZE + 1));
-		store->content_size = fd;
-		tmp_node = store;
-	}
-	i = 0;
-	while ((len = read(fd, tmp_node->content, BUFF_SIZE)) > 0)
-	{
-		*(char *)(tmp_node->content + len) = '\0';
-		i = ft_i_of_nl_or_null_in_content_of_node(*tmp_node);
-		if (*(char *)(tmp_node->content + i) == '\n')
+		if (P_NL)
 			break ;
-		tmp = ft_strjoin(*line, tmp_node->content);
-		if (*line)
-			free(*line);
-		*line = tmp;
-		free(tmp);
+		*line = ft_strextend(line, CONT, len);
+		ft_strcut((char **)&(CONT), (CONT) + ft_strlen(CONT));
 	}
 	if (len < 0)
 		return (-1);
-	if (!i)
-		i = ft_i_of_nl_or_null_in_content_of_node(*tmp_node);
-	*line = ft_strsub(tmp_node->content, 0, i);
-	if (*(char *)(tmp_node->content + i) == '\n') //move
+	if (P_NL - (char *)(CONT) > -1 && *(char *)CONT != '\0')
 	{
-		tmp = ft_strdup(tmp_node->content + i + 1);
-		free(tmp_node->content);
-		tmp_node->content = tmp;
+		*line = ft_strextend(line, CONT, P_NL - (char *)(CONT));
+		ft_strcut((char **)&(CONT), P_NL);
+		return (1);
 	}
-	else if (*(char *)(tmp_node->content + i) == '\0')
-		ft_strdel(tmp_node->content);
-	printf("TEST\n");
-	if (len == 0 && i == 0)
+	*line = ft_strextend(line, CONT, ft_strlen(CONT));
+	ft_strcut((char **)&(CONT), (CONT) + ft_strlen(CONT));
+	if (len == 0 && *(char *)CONT == '\0' && **line == '\0')
 		return (0);
 	return (1);
 }
-
-// int				main(int argc, char **argv)
-// {
-// 	int		j;
-// 	int		out;
-// 	int		fd;
-// 	char	*line;
-
-// 	fd = open(argv[1], O_RDONLY);
-// 	if (fd == -1)
-// 		return (-1);
-// 	line = ft_strnew(1);
-// 	while (j++ < 7)
-// 	{
-// 		out |= get_next_line(fd, &line);
-// 		printf("main = %s\n", line);
-// 	}
-// 	close(fd);
-// 	return (out);
-// }
