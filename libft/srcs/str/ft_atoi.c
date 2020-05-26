@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 13:14:50 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/19 12:08:04 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_string.h"
+#include <sys/_types/_null.h>
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+int		ft_atoi(const char *str)
+{
+	return (ft_strtol(str, NULL, 10));
+}

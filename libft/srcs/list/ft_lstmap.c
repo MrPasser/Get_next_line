@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2019/09/20 17:53:20 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/25 11:20:28 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_list.h"
+#include <sys/_types/_null.h>
 
-int		get_next_line(const int fd, char **line);
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
+{
+	t_list *fresh;
 
-#endif
+	fresh = NULL;
+	if (f == NULL)
+		return (fresh);
+	while (lst != NULL)
+	{
+		ft_lstadd(&fresh, f(lst));
+		lst = lst->next;
+	}
+	ft_lstrev(&fresh);
+	return (fresh);
+}

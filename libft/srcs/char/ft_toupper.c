@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 14:36:55 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/06 13:43:35 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_char.h"
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+int		ft_toupper(int c)
+{
+	return (ft_islower(c) ? c - 'a' + 'A' : c);
+}

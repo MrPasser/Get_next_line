@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2020/05/20 10:19:47 by svet              #+#    #+#             */
+/*   Updated: 2020/05/20 10:28:01 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_list_bonus.h"
+#include <sys/_types/_null.h>
 
-int		get_next_line(const int fd, char **line);
+size_t	ft_lstsize(t_list *lst)
+{
+	size_t size;
 
-#endif
+	size = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		++size;
+	}
+	return (size);
+}

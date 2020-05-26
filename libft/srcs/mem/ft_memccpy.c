@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2019/09/18 10:45:03 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/07 14:08:20 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_memory.h"
+#include <sys/_types/_null.h>
 
-int		get_next_line(const int fd, char **line);
+void	*ft_memccpy(void *dst, const void *src, int c, size_t n)
+{
+	void	*p;
 
-#endif
+	p = ft_memchr(src, c, n);
+	if (p)
+		return (ft_mempcpy(dst, src, p - src + 1));
+	ft_memcpy(dst, src, n);
+	return (NULL);
+}

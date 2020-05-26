@@ -1,20 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isbetween.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2020/05/06 11:43:33 by svet              #+#    #+#             */
+/*   Updated: 2020/05/19 11:02:10 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+int	ft_isbetween(int x, int m, int n)
+{
+	return ((((x) - ~0UL / 255 * (n)) & ~(x) & ((x) & ~0UL / 255 * 127) + ~0UL /
+										255 * (127 - (m))) & ~0UL / 255 * 128);
+}

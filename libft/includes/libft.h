@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2019/09/16 11:33:08 by skrasin           #+#    #+#             */
+/*   Updated: 2020/05/26 11:17:02 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#ifndef LIBFT_H
+# define LIBFT_H
 
-int		get_next_line(const int fd, char **line);
+# include "ft_char.h"
+# include "ft_memory.h"
+# include "ft_string.h"
+# include "ft_io.h"
+# include "ft_math.h"
+# include "ft_list.h"
 
 #endif

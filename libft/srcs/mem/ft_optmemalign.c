@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_optmemalign.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2020/05/07 13:24:36 by svet              #+#    #+#             */
+/*   Updated: 2020/05/16 09:00:38 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_memory.h"
 
-int		get_next_line(const int fd, char **line);
+size_t	ft_optmemalign(const void *const s)
+{
+	const size_t xl = OPT_SIZE - (unsigned OP_T)s & OPT_MASK;
 
-#endif
+	if (xl == 8)
+		return (0);
+	else
+		return (xl);
+}

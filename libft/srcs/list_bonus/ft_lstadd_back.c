@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2020/05/20 10:26:56 by svet              #+#    #+#             */
+/*   Updated: 2020/05/25 13:31:14 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_list_bonus.h"
+#include <sys/_types/_null.h>
 
-int		get_next_line(const int fd, char **line);
-
-#endif
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	if (lst == NULL)
+		lst = &new;
+	else if (*lst != NULL)
+		ft_lstlast(*lst)->next = new;
+	else
+		*lst = new;
+}

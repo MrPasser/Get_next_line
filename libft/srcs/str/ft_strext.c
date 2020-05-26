@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strext.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svet <svet@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/29 23:21:14 by skrasin           #+#    #+#             */
-/*   Updated: 2020/05/26 14:07:33 by svet             ###   ########.fr       */
+/*   Created: 2020/05/26 13:07:19 by svet              #+#    #+#             */
+/*   Updated: 2020/05/26 13:13:09 by svet             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# include "./Libft/includes/libft.h"
-# define BUFF_SIZE (1)
+#include "ft_memory.h"
+#include "ft_string.h"
+#include <stdlib.h>
 
-int		get_next_line(const int fd, char **line);
+char	*ft_strext(char **dst, char const *src)
+{
+	char			*tmp;
+	const size_t	n1 = ft_strlen(*dst);
+	const size_t	n2 = ft_strlen(src);
 
-#endif
+	tmp = *dst;
+	if ((*dst = ft_memalloc(n1 + n2 + 1)) == NULL)
+		return (NULL);
+	*dst = ft_memcpy(*dst, tmp, n1);
+	ft_memcpy(*dst + n1, src, n2 + 1);
+	free(tmp);
+	return (*dst);
+}
